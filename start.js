@@ -1,4 +1,4 @@
-var game = new Game ()
+// var game = new Game ()
 
 
 window.onload = function() {
@@ -6,9 +6,7 @@ window.onload = function() {
     startGame();
   };
 
-  startGame = ()=>{
-      let marife = document.getElementById("canvas")
-      
-    game.initGame(marife);
+  startGame = ()=>{  
+    Game.initGame(`canvas`);
   }
 }
