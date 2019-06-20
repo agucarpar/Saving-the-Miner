@@ -1,3 +1,54 @@
+function randomFloat(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function randomInt(min, max){
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+const keys = {
+  rightKey: 39,
+  leftKey: 37,
+  spaceKey: 32
+}
+
+window.onkeydown = (e) => {
+  switch (e.keyCode) {
+    case keys.rightKey:
+      Game.background.moveLeft()
+      Game.player.animationPlayer()
+      break;
+    case keys.leftKey:
+      Game.background.moveRight()
+      Game.player.animationPlayer()
+    case keys.spaceKey:
+      Game.player.jump()
+  }
+}
+
+
+class Obstacle {
+  constructor(speed) {
+    this.x = 900
+    this.y = 400
+    this.speed = speed
+  }
+
+  draw() {
+    Game.ctx.beginPath();
+    Game.ctx.fillStyle = 'red'
+    Game.ctx.arc(this.x, this.y, 10, 0, 2 * Math.PI);
+    Game.ctx.fill();
+    Game.ctx.closePath();
+  }
+
+  moveLeft() {
+    this.x-=this.speed
+
+    console.log(this.x)
+  }
+}
+
 var Game = {
 
   canvas: undefined,
@@ -10,7 +61,9 @@ var Game = {
   fps: 60,
   xBg: 0,
   yBg: 0,
-
+  obstacle: undefined,
+  // if you lower this number, it will generate obstacles faster!
+  dificultyLevel: 200,
 
 
   initGame: function (canvasId) {
@@ -27,10 +80,25 @@ var Game = {
 
       this.frameCounter++
       if (this.frameCounter > 1000) {
+        // alert('x')
         this.frameCounter = 0;
       }
 
-      this.drawEverthing();
+      if (this.frameCounter % this.dificultyLevel === 0) {
+        this.obstacle = new Obstacle(randomInt(5, 10))
+      }
+
+      if (this.obstacle !== undefined) {
+        this.obstacle.moveLeft()
+
+        console.log(this.obstacle.x)
+
+        if (this.obstacle.x < 0) {
+          this.obstacle = undefined
+        }
+      }
+
+      this.drawEverything();
       this.moveEverything();
     }, 1000 / this.fps)
   },
@@ -42,18 +110,18 @@ var Game = {
   moveEverything: function () {
     //   // this.background.moveBackground()
     //this.player.movePlayer()
-    this.player.directionPlayer();
+    // this.player.directionPlayer();
   },
-  drawEverthing: function () {
-
-    // this.background.drawBackground(); 
+  drawEverything: function () {
+    this.background.drawBackground();
     this.player.drawPlayer()
+
+    if (this.obstacle !== undefined) {
+      this.obstacle.draw()
+    }
   },
-
-
-
   clear: function () {
-    console.log("limpia")
+    // console.log("limpia")
     this.ctx.clearRect(this.xBg, this.yBg, this.wCanvas, this.hCanvas)
   },
 

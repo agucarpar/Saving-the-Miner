@@ -15,9 +15,17 @@ this.topPosition=-this.hCanvas
     }
 
 drawBackground() { 
-    console.log("esta pintando")
+    // console.log("esta pintando")
    this.ctx.drawImage(this.img, this.xBg, this.yBg, this.wBg, this.hBg);
    this.ctx.drawImage(this.img, this.xBg, this.yBg -this.hBg, this.wBg, this.hBg);
+}
+
+moveLeft() {
+    this.xBg -= this.speedBg;
+}
+
+moveRight() {
+    this.xBg += this.speedBg;
 }
 
 moveBackground(){

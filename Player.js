@@ -22,10 +22,6 @@ class Player {
     //Frames
     // this.imgPlayer.frame = 3
     this.imgPlayer.frameIndex = 0
-    //Keys
-    this.rightKey = 39
-    this.leftKey = 37
-    this.spaceKey = 32
 
     this.directions = {
       space: false,
@@ -55,28 +51,7 @@ class Player {
 
   directionPlayer = () => {
 
-    document.onkeydown = (e) => {
-      switch (e.keyCode) {
-        case this.rightKey:
-          this.directions.left = false
-          this.directions.space = false;
-          this.directions.right = true;
-          this.animationPlayer(this.frameCounter);
-          this.movingPlayer();
-          break;
-        case this.leftKey:
-          this.directions.right = false;
-          this.directions.space = false;
-          this.directions.left = true;
-          this.animationPlayer(this.frameCounter);
-          this.movingPlayer();
-        case this.spaceKey:
-          this.directions.right = false;
-          this.directions.left = false;
-          this.directions.space = true;
-          this.movingPlayer();
-      }
-    }
+
   }
 
 
@@ -90,6 +65,7 @@ class Player {
       if (this.imgPlayer.frameIndex > 2) this.imgPlayer.frameIndex = 0;
     }
   }
+
   movingPlayer = () => {
     var gravity = 0.4;
     if (this.directions.right) {
@@ -103,21 +79,22 @@ class Player {
         this.xImgPlayer -= this.speed
       }
     }
-    else {
-      let sense = -1
+  }
 
-      let jumpInterval = setInterval(() => {
-        this.yImgPlayer += (4 * sense);
+  jump() {
+    let sense = -1
 
-        if (this.yImgPlayer < 200) {
-          sense = 1
-        }
+    let jumpInterval = setInterval(() => {
+      this.yImgPlayer += (4 * sense);
 
-        if (this.yImgPlayer > 300) {
-          this.yImgPlayer = 300
-          clearInterval(jumpInterval)
-        }
-      }, 10)
-    }
+      if (this.yImgPlayer < 200) {
+        sense = 1
+      }
+
+      if (this.yImgPlayer > 300) {
+        this.yImgPlayer = 300
+        clearInterval(jumpInterval)
+      }
+    }, 10)
   }
 }
